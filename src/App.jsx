@@ -8,7 +8,7 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Login />} />
         {/* <Route path="/client-dashboard" element={<DashboardClient />} />
         <Route path="/manager-dashboard" element={<DashboardGestionnaire />} /> */}
         {/* Ajoutez d'autres routes selon vos besoins */}

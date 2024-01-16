@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Autocomplete, Button, Pane, TextInput } from "evergreen-ui";
 import { useNavigate } from 'react-router-dom'; // Assurez-vous d'importer useNavigate
-
+import { FaUnlock } from 'react-icons/fa';
+import { FaChevronDown } from 'react-icons/fa';
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -10,9 +11,9 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
+  useEffect(() => {""
     setIsLoading(true);
-    fetch("http://51.83.69.229:3000/api/users/gestionEntreprise", {
+    fetch("http://51.83.69.229:3000/api/users/gestionEntrepriseFirmName", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
