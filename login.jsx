@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Autocomplete, Button, Pane, TextInput } from "evergreen-ui";
-import { useNavigate } from 'react-router-dom'; // Assurez-vous d'importer useNavigate
-import { FaUnlock } from 'react-icons/fa';
-import { FaChevronDown } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import { FaUnlock, FaChevronDown } from 'react-icons/fa';
+
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -11,7 +11,7 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {""
+  useEffect(() => {
     setIsLoading(true);
     fetch("http://51.83.69.229:3000/api/users/gestionEntrepriseFirmName", {
       method: "GET",
@@ -21,11 +21,15 @@ const Login = () => {
     })
     .then((response) => response.json())
     .then((data) => {
-      const formattedData = data.map((entreprise) => ({
-        label: entreprise.firm_name,
-        value: entreprise._id,
-      }));
-      setEntreprise(formattedData);
+      if (Array.isArray(data.firmNames)) {
+        const formattedData = data.firmNames.map(firmName => ({
+          label: firmName,
+          value: firmName, // Ajustez cette ligne si nécessaire
+        }));
+        setEntreprise(formattedData);
+      } else {
+        console.log("La propriété 'firmNames' n'est pas un tableau:", data);
+      }
       setIsLoading(false);
     })
     .catch((error) => {
@@ -58,7 +62,6 @@ const Login = () => {
     .then((data) => {
       setIsLoading(false);
       if (data.success) {
-        // Redirection ou autres actions après la connexion réussie
         navigate('/dashboard'); // Modifier selon la route de votre dashboard
       } else {
         alert("Identifiants incorrects");
@@ -83,10 +86,10 @@ const Login = () => {
             <TextInput
               placeholder="Entreprise"
               value={inputValue}
-              {...getInputProps()} // Propriétés d'entrée
+              {...getInputProps()}
             />
             <Button onClick={toggleMenu} {...getToggleButtonProps()}>
-              <FaChevronDown /> {/* Bouton pour dérouler les options */}
+              <FaChevronDown />
             </Button>
           </Pane>
         )}
@@ -102,9 +105,9 @@ const Login = () => {
       </div>
       <button onClick={handleLogin} disabled={!selectedCompany || !password || isLoading}>
         {isLoading ? "Connexion en cours..." : "Se connecter"}
-      </button>
-    </div>
-  );
+</button>
+</div>
+);
 };
 
 export default Login;
