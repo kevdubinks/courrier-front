@@ -22,8 +22,10 @@ const Login = () => {
     .then((response) => response.json())
     .then((data) => {
       if (Array.isArray(data.firmNames)) {
-        const formattedData = data.firmNames.map(firmName => ({
-           // Ajustez cette ligne si nécessaire
+        const formattedData = data.firmNames.map((firmName, index) => ({
+          label: firmName,
+          value: firmName,
+          key: index // Ajout d'une clé unique
         }));
         setEntreprise(formattedData);
       } else {
