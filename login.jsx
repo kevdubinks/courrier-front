@@ -33,11 +33,12 @@ const LoginPage = () => {
         body: JSON.stringify({ firm_name: firmName, four_digit_code: fourDigitCode }),
       });
       const data = await response.json();
+      console.log('Réponse de l\'API:', data);
       if (response.ok) {
         // Stocker le token JWT et rediriger l'utilisateur
         localStorage.setItem('token', data.token, );
         localStorage.setItem('firmName', firmName); // Supposant que firmName est déjà disponible
-        localStorage.setItem('isAdmin', data.isAdmin);
+        localStorage.setItem('isAdmin', data.is_admin); 
         // Rediriger vers le tableau de bord ou la page d'accueil
       } else {
         // Gérer les erreurs (utilisateur non trouvé, mot de passe incorrect, etc.)
