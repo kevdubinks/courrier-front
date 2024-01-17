@@ -13,7 +13,7 @@ const Login = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    fetch("http://51.83.69.229:3000/api/users/gestionEntrepriseFirmName", {
+    fetch("http://51.83.69.229:3000/api/users/gestionEntrepriseFirmName",{ mode: 'no-cors' }, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
