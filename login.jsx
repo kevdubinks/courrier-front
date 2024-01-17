@@ -4,7 +4,7 @@ const LoginPage = () => {
   const [firmName, setFirmName] = useState('');
   const [fourDigitCode, setFourDigitCode] = useState('');
   const [firms, setFirms] = useState([]);
-  cons
+
 
  
   useEffect(() => {
@@ -30,7 +30,7 @@ const LoginPage = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ firm_name: firmName, four_digit_code: fourDigitCode, is_admin: isAdmin }),
+        body: JSON.stringify({ firm_name: firmName, four_digit_code: fourDigitCode }),
       });
       const data = await response.json();
       if (response.ok) {
