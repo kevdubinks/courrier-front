@@ -11,3 +11,4 @@ const ProtectedRoute = ({ children, isAdminRoute = false }) => {
 
   return children;
 };
+export default ProtectedRoute;

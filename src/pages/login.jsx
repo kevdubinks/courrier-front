@@ -40,10 +40,16 @@ const LoginPage = () => {
         localStorage.setItem('firmName', firmName); // Supposant que firmName est déjà disponible
         localStorage.setItem('isAdmin', data.is_admin); 
         // Rediriger vers le tableau de bord ou la page d'accueil
-      } else {
-        // Gérer les erreurs (utilisateur non trouvé, mot de passe incorrect, etc.)
-        console.error(data.message);
-      }
+      // Redirection en fonction du statut d'administrateur
+  if (data.is_admin) {
+    window.location.href = '/admin-dashboard'; // Remplacer par le chemin de votre page admin
+  } else {
+    window.location.href = '/client-dashboard'; // Remplacer par le chemin de votre page client
+  }
+} else {
+  // Gérer les erreurs
+  console.error(data.message);
+}
     } catch (error) {
       console.error('Erreur lors de la connexion:', error);
     }

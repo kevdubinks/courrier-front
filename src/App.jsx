@@ -1,17 +1,26 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Login from "./pages/login.jsx"; // Importez votre composant Login
- import DashboardClient from "./DashboardClient"; // Remplacez par votre composant de dashboard client
- import DashboardAdmin from "./DashboardAdmin"; // Remplacez par votre composant de dashboard gestionnaire
+import Login from "./pages/login.jsx";
+import DashboardClient from "./pages/DashboardClient";
+import DashboardAdmin from "./pages/DashboardAdmin";
+import ProtectedRoute from './ProtectedRoute.jsx';
 
 const App = () => {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/client-dashboard" element={<DashboardClient />} />
-        <Route path="/Admin-dashboard" element={<DashboardAdmin />} />
-        {/* Ajoutez d'autres routes selon vos besoins */}
+        <Route path="/client-dashboard" element={
+          <ProtectedRoute>
+            <DashboardClient />
+          </ProtectedRoute>
+        } />
+        <Route path="/admin-dashboard" element={
+          <ProtectedRoute isAdminRoute={true}>
+            <DashboardAdmin />
+          </ProtectedRoute>
+        } />
+        {/* Autres routes */}
       </Routes>
     </Router>
   );
