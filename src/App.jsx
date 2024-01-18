@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Login from "../login.jsx"; // Importez votre composant Login
+import Login from "./pages/login.jsx"; // Importez votre composant Login
 // import DashboardClient from "./DashboardClient"; // Remplacez par votre composant de dashboard client
 // import DashboardGestionnaire from "./DashboardGestionnaire"; // Remplacez par votre composant de dashboard gestionnaire
 
