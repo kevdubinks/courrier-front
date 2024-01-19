@@ -6,7 +6,7 @@ const UserList = ({ onEdit, onDelete }) => {
 
   useEffect(() => {
     // Remplacer par un appel API pour récupérer les utilisateurs
-    fetch('http://51.83.69.229:3000/api/users')
+    fetch('http://51.83.69.229:3000/api/users/gestionEntreprise')
       .then(response => response.json())
       .then(data => setUsers(data))
       .catch(error => console.error('Erreur lors du chargement des utilisateurs:', error));
@@ -126,7 +126,8 @@ const AdminDashboard = () => {
       if (response.ok) {
         // Mettre à jour l'état pour refléter la modification de l'utilisateur
         setEditingUser(null); // Fermer le modal
-        // Vous devrez peut-être recharger la liste des utilisateurs ici
+        // Mettre à jour la liste des utilisateurs
+        setUsers(users => users.map(user => user._id === userId ? { ...user, ...updatedUserData } : user));
       } else {
         console.error('Erreur lors de la mise à jour de l\'utilisateur');
       }
@@ -141,14 +142,15 @@ const AdminDashboard = () => {
       <h1>Tableau de Bord Administrateur</h1>
       <UserList onEdit={handleEditUser} onDelete={handleDeleteUser} />
       {editingUser && (
-        <EditUserForm user={editingUser} onSave={(updatedUser) => {
-          // Logique pour enregistrer les modifications de l'utilisateur
-        }} />
+        <EditUserModal // Assurez-vous que c'est le nom correct du composant
+          user={editingUser} 
+          onSave={handleSaveEdit} 
+          onClose={() => setEditingUser(null)}
+        />
       )}
-      {/* Ici, vous pouvez ajouter d'autres composants tels que la gestion des notifications */}
+      {/* Autres composants */}
     </div>
   );
-  
 };
 
 export default AdminDashboard;
