@@ -38,6 +38,52 @@ const UserList = ({ onEdit, onDelete }) => {
     </table>
   );
 };
+const EditUserModal = ({ user, onSave, onClose }) => {
+    const [editFormData, setEditFormData] = useState({
+      first_name: user.first_name,
+      last_name: user.last_name,
+      email: user.email,
+      // Ajoutez d'autres champs si nécessaire
+    });
+  
+    const handleChange = (e) => {
+      setEditFormData({ ...editFormData, [e.target.name]: e.target.value });
+    };
+  
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      onSave(user._id, editFormData);
+    };
+  
+    return (
+      <div className="modal">
+        <div className="modal-content">
+          <span className="close" onClick={onClose}>&times;</span>
+          <form onSubmit={handleSubmit}>
+            <label>
+              Prénom:
+              <input 
+                name="first_name" 
+                value={editFormData.first_name} 
+                onChange={handleChange} 
+              />
+            </label>
+            <label>
+              Nom:
+              <input 
+                name="last_name" 
+                value={editFormData.last_name} 
+                onChange={handleChange} 
+              />
+            </label>
+            {/* Ajoutez d'autres champs de formulaire ici */}
+            <button type="submit">Enregistrer les modifications</button>
+          </form>
+        </div>
+      </div>
+    );
+  };
+  
 
 // Composant principal pour le tableau de bord administrateur
 const AdminDashboard = () => {
@@ -46,52 +92,7 @@ const AdminDashboard = () => {
   const handleEditUser = (user) => {
     setEditingUser(user);
     // Vous pouvez ouvrir un formulaire modal ici avec les informations de l'utilisateur
-    const EditUserModal = ({ user, onSave, onClose }) => {
-  const [editFormData, setEditFormData] = useState({
-    first_name: user.first_name,
-    last_name: user.last_name,
-    email: user.email,
-    // Ajoutez d'autres champs si nécessaire
-  });
-
-  const handleChange = (e) => {
-    setEditFormData({ ...editFormData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSave(user._id, editFormData);
-  };
-
-  return (
-    <div className="modal">
-      <div className="modal-content">
-        <span className="close" onClick={onClose}>&times;</span>
-        <form onSubmit={handleSubmit}>
-          <label>
-            Prénom:
-            <input 
-              name="first_name" 
-              value={editFormData.first_name} 
-              onChange={handleChange} 
-            />
-          </label>
-          <label>
-            Nom:
-            <input 
-              name="last_name" 
-              value={editFormData.last_name} 
-              onChange={handleChange} 
-            />
-          </label>
-          {/* Ajoutez d'autres champs de formulaire ici */}
-          <button type="submit">Enregistrer les modifications</button>
-        </form>
-      </div>
-    </div>
-  );
-};
-
+    
   };
 
   const handleDeleteUser = (userId) => {
@@ -112,6 +113,28 @@ const AdminDashboard = () => {
       });
     }
   };
+  const handleSaveEdit = (userId, updatedUserData) => {
+    fetch(`http://51.83.69.229:3000/api/users/update/${userId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        // Ajoutez ici les headers nécessaires, comme l'authentification
+      },
+      body: JSON.stringify(updatedUserData)
+    })
+    .then(response => {
+      if (response.ok) {
+        // Mettre à jour l'état pour refléter la modification de l'utilisateur
+        setEditingUser(null); // Fermer le modal
+        // Vous devrez peut-être recharger la liste des utilisateurs ici
+      } else {
+        console.error('Erreur lors de la mise à jour de l\'utilisateur');
+      }
+    })
+    .catch(error => {
+      console.error('Erreur réseau:', error);
+    });
+  };
 
   return (
     <div>
@@ -125,6 +148,7 @@ const AdminDashboard = () => {
       {/* Ici, vous pouvez ajouter d'autres composants tels que la gestion des notifications */}
     </div>
   );
+  
 };
 
 export default AdminDashboard;
